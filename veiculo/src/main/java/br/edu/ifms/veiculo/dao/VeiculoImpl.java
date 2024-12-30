@@ -20,34 +20,22 @@ public class VeiculoImpl implements VeiculoDao {
 	
 	@Override
 	public long adicionar(Veiculo veiculo) throws SQLException {
-	    PreparedStatement stmt = null;
-	    long id = 0;
-	    try {
-	        // Ajustando o comando SQL para o MySQL, retirando a parte "RETURNING ID"
-	        String sql = "INSERT INTO veiculo (modelo, marca, cor) VALUES (?, ?, ?)";
-	        
-	        // Usando PreparedStatement para evitar SQL Injection
-	        stmt = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-	        stmt.setString(1, veiculo.getModelo());
-	        stmt.setString(2, veiculo.getMarca());
-	        stmt.setString(3, veiculo.getCor());
-
-	        // Executa o insert e obtém o ID gerado
-	        stmt.executeUpdate();
-
-	        // Recuperando o ID gerado automaticamente
-	        ResultSet rs = stmt.getGeneratedKeys();
-	        if (rs.next()) {
-	            id = rs.getLong(1);
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } finally {
-	        if (stmt != null) {
-	            stmt.close();
-	        }
-	    }
-	    return id;
+		Statement stmt = null;
+		long id = 0;
+		try {
+			String sql = "insert into veiculo (modelo, marca, cor)"+
+					" values (\'"+veiculo.getModelo()+"\',\'"+veiculo.getMarca()+"\',\'"+ veiculo.getCor()+"\') RETURNING ID";
+			stmt = this.connection.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				id = rs.getLong(1);
+	        }			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			stmt.close();
+		}
+		return id;
 	}
 
 	@Override

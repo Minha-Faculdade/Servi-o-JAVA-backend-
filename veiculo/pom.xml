@@ -43,13 +43,6 @@
 			<artifactId>jaxb-impl</artifactId>
 			<version>3.0.2</version>
 		</dependency>
-		
-		<dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-    <version>8.0.30</version> <!-- Ou a versão mais recente -->
-</dependency>
-
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
